@@ -92,9 +92,20 @@ public class StaticArray implements Array {
                 bubbleSort();
                 break;
             case INSERTION:
+                insertionSort();
+                break;
             case SELECTION:
+                selectionSort();
+                break;
             case MERGE:
+                mergeSort();
+                break;
+            case HEAP:
+                heapSort();
+                break;
             case QUICK:
+                quickSort();
+                break;
             default:
                 sort();
         }
@@ -158,12 +169,21 @@ public class StaticArray implements Array {
         }
     }
 
-    private void mergeSort() {
+    public static void mergeSort(int[] array, int start, int end){
         //TODO**: сортировка слиянием (по возрастанию)
+        int leftEnd = (start + end) / 2,
+            rightBegin = leftEnd + 1;
+        if(end != start) {
+            mergeSort(array, start, leftEnd);
+            mergeSort(array, rightBegin, end);
+        }
+        for(int i = start, j = rightBegin; i <= leftEnd || j <= end; i++, j++){
+
+        }
     }
 
-    private void quickSort(){
-        quickSort(0, array.length - 1);
+    private void mergeSort() {
+        mergeSort(array, 0, array.length - 1);
     }
 
     private void quickSort(int start, int end) {
@@ -191,6 +211,26 @@ public class StaticArray implements Array {
             quickSort(s, end);
         if(e > start)
             quickSort(start, e);
+    }
+
+    private void quickSort(){
+        quickSort(0, array.length - 1);
+    }
+
+    private void heapSort(){
+        for(int i = array.length - 1; i > 0; i--){
+            for(int j = i; j > 0; j--){
+                int parentIndex = j % 2 == 0 ? (j - 2) / 2 : (j - 1) / 2;
+                if(array[parentIndex] < array[j]){
+                    int temp = array[parentIndex];
+                    array[parentIndex] = array[j];
+                    array[j] = temp;
+                }
+            }
+            int temp = array[i];
+            array[i] = array[0];
+            array[0] = temp;
+        }
     }
 
     public boolean isAscSorted() {

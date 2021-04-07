@@ -5,5 +5,6 @@ public enum ArraySort {
     INSERTION,
     SELECTION,
     MERGE,
+    HEAP,
     QUICK
 }
