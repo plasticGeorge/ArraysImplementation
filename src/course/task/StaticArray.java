@@ -169,21 +169,31 @@ public class StaticArray implements Array {
         }
     }
 
-    public static void mergeSort(int[] array, int start, int end){
+    public void mergeSort(Array array){
         //TODO**: сортировка слиянием (по возрастанию)
-        int leftEnd = (start + end) / 2,
-            rightBegin = leftEnd + 1;
-        if(end != start) {
-            mergeSort(array, start, leftEnd);
-            mergeSort(array, rightBegin, end);
+        Array left = array.subArray(0, array.size() / 2);
+        Array right = array.subArray(array.size() / 2, array.size());
+        if(array.size() > 1) {
+            mergeSort(left);
+            mergeSort(right);
         }
-        for(int i = start, j = rightBegin; i <= leftEnd || j <= end; i++, j++){
-
+        for(int l = 0, r = 0, i = 0; i < array.size(); i++){
+            if(l < left.size() && r < right.size()) {
+                array.set(i, left.get(l) < right.get(r) ? left.get(l++) : right.get(r++));
+            }
+            else if(l < left.size()){
+                for(int j = l; j < left.size(); j++, i++)
+                    array.set(i, left.get(j));
+            }
+            else if(r < right.size()){
+                for(int j = r; j < right.size(); j++, i++)
+                    array.set(i, right.get(j));
+            }
         }
     }
 
     private void mergeSort() {
-        mergeSort(array, 0, array.length - 1);
+        mergeSort(this);
     }
 
     private void quickSort(int start, int end) {

@@ -80,12 +80,29 @@ public class SortedArray extends StaticArray {
 
     public SortedArray merge(SortedArray other) {
         // TODO: произвести слиянеие двух сортированных массивов
-
-        return this;
+        SortedArray array = new SortedArray(new int[this.size() + other.size()]);
+        for(int l = 0, r = 0, i = 0; i < array.size(); i++){
+            if(l < this.size() && r < other.size()) {
+                array.set(i, this.get(l) < other.get(r) ? this.get(l++) : other.get(r++));
+            }
+            else if(l < this.size()){
+                for(int j = l; j < this.size(); j++, i++)
+                    array.set(i, this.get(j));
+            }
+            else if(r < other.size()){
+                for(int j = r; j < other.size(); j++, i++)
+                    array.set(i, other.get(j));
+            }
+        }
+        return array;
     }
 
     public SortedArray mergeAll(SortedArray... others) {
         // TODO: произвести слиянеие N + 1 сортированных массивов
-        return this;
+        SortedArray array = this;
+        for(int i = 0; i < others.length; i++) {
+            array = array.merge(others[i]);
+        }
+        return array;
     }
 }
